@@ -3,18 +3,14 @@
 const PQueue = require('p-queue');
 
 class Course {
-  constructor ({ trackCount, concurrencyPerTrack } = {}) {
-    if (!trackCount) {
-      trackCount = 256;
-    }
-    if (!concurrencyPerTrack) {
-      concurrencyPerTrack = 1;
-    }
-
+  constructor ({ trackCount = 256, concurrencyPerTrack = 1 } = {}) {
     this.tracks = [];
 
     for (let i = 0; i < trackCount; i++) {
-      this.tracks[i] = { tasks: [], queue: new PQueue({ concurrency: concurrencyPerTrack }) };
+      this.tracks[i] = {
+        tasks: [],
+        queue: new PQueue({ concurrency: concurrencyPerTrack })
+      };
     }
   }
 
@@ -38,7 +34,7 @@ class Course {
       return freeTrack;
     }
 
-    // Slice the original array in order not to mutate it via sort
+    // Slice the original array in order not to mutate it via sort.
     const tracksSortedByTodos = tracks.slice().sort((firstTrack, secondTrack) => firstTrack.tasks.length - secondTrack.tasks.length);
 
     return tracksSortedByTodos[0];
@@ -66,7 +62,7 @@ class Course {
     try {
       await trackForTask.queue.add(task);
     } catch (ex) {
-      throw new Error('Error during execution of task.');
+      throw new Error('Failed to execute task.');
     } finally {
       const index = trackForTask.tasks.indexOf(taskIdentity);
 

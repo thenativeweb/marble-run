@@ -12,13 +12,13 @@ $ npm install marble-run
 
 ## Quick start
 
-First you need to add a reference to marble-run in your application.
+First you need to add a reference to marble-run in your application:
 
 ```javascript
 const Course = require('marble-run');
 ```
 
-Create a new course that will serve as a dispatcher for your async tasks. By default a course will create 256 tracks. Each track can be filled with async tasks and will be run in series. The tracks will run in parallel.
+Then, create a new course that will serve as a dispatcher for your async tasks. By default a course will create 256 tracks. Each track can be filled with async tasks that will be run in series. The tracks themselves will run in parallel:
 
 ```javascript
 const course = new Course();
@@ -34,49 +34,32 @@ const course = new Course({
 });
 ```
 
-## Adding work & parallizing it via the routing key
+## Adding work and parallelizing it via the routing key
 
-In order to add async tasks you need to call the `add` method. Specify a v4 UUID as the `id` of this worker. Provide a v4 UUID as the `routingKey` parameter which will be used to dispatch work onto the tracks. A course will make sure that all tasks with the same `routingKey` will end up on the same track.
+In order to add async tasks you need to call the `add` method. First of all, you need to specify an `id` for the task, and a `worker` function to handle the task.
+
+Also, you need to provide a `routingKey`. This key will be used to dispatch tasks onto the various tracks. A course will try to balance tasks between tracks, but make sure that all tasks with the same `routingKey` end up on the same track (i.e. are run sequantially):
 
 ```javascript
-// These functions will run in parallel
-await Promise.all([
-  course.add({
-    routingKey: '000000-0000-0000-0000-0000000000001',
-    id: 'b9031afc-bbc8-4e48-8fb0-5639a9afd8c2',
-    worker: async function () {
+course.add({
+  routingKey: '5d34dc92-899d-47dd-a51d-80c9379320c0',
+  id: 'b9031afc-bbc8-4e48-8fb0-5639a9afd8c2',
+  async worker () {
+    // ...
+  }
+});
+```
 
-    }
-  }),
-  course.add({
-    routingKey: '000000-0000-0000-0000-0000000000002',
-    id: 'f7175cf7-9bc4-40af-9583-6a5dcd7dda06',
-    worker: async function () {
+If you want to get notified once a task ends, you can `await` its result:
 
-    }
-  })
-]);
-console.log('All workers done!');
-
-// These functions will run in series
-await Promise.all([
-  course.add({
-    routingKey: '000000-0000-0000-0000-0000000000003',
-    id: '364f4680-2771-4175-9b07-3c8a0cb9c135',
-    worker: async function () {
-
-    }
-  }),
-  course.add({
-    routingKey: '000000-0000-0000-0000-0000000000003',
-    id: 'f8c95949-78e2-4e41-8b7c-f8cdc606d1d1',
-    worker: async function () {
-
-    }
-  })
-]);
-console.log('All workers done!');
-
+```javascript
+await course.add({
+  routingKey: '5d34dc92-899d-47dd-a51d-80c9379320c0',
+  id: 'b9031afc-bbc8-4e48-8fb0-5639a9afd8c2',
+  async worker () {
+    // ...
+  }
+});
 ```
 
 ## Running the build
