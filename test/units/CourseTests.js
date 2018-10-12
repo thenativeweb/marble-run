@@ -249,7 +249,5 @@ suite('Course', () => {
         assert.that(track.todos.length).is.equalTo(0);
       });
     });
-
-    test('stops all queues when one worker throws an error.');
   });
 });
