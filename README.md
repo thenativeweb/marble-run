@@ -1,6 +1,6 @@
 # marble-run
 
-marble-run is a module for parallelizing async tasks while keeping some of them in order.
+marble-run parallelizes asynchronous tasks while keeping some of them in order.
 
 ![marble-run](images/logo.png "marble-run")
 
