@@ -36,7 +36,7 @@ const course = new Course({
 
 ## Adding work & parallizing it via the routing key
 
-In order to add async tasks you need to call the `add` method. Specify a v4 UUID as the `id` if this worker. Provide a v4 UUID as the `routingKey` parameter which will be used to dispatch work onto the tracks. A course will make sure that all tasks with the same `routingKey` will end up on the same track.
+In order to add async tasks you need to call the `add` method. Specify a v4 UUID as the `id` of this worker. Provide a v4 UUID as the `routingKey` parameter which will be used to dispatch work onto the tracks. A course will make sure that all tasks with the same `routingKey` will end up on the same track.
 
 ```javascript
 // These functions will run in parallel

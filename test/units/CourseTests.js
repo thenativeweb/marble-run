@@ -16,11 +16,11 @@ suite('Course', () => {
     assert.that(course.tracks.length).is.equalTo(256);
   });
 
-  test('initializes each course with empty todos.', async () => {
+  test('initializes each course with empty tasks.', async () => {
     const course = new Course();
 
     course.tracks.forEach(track => {
-      assert.that(track.todos.length).is.equalTo(0);
+      assert.that(track.tasks.length).is.equalTo(0);
     });
   });
 
@@ -43,8 +43,8 @@ suite('Course', () => {
 
     test('returns first empty track when no work has been added yet.', async () => {
       const tracks = [
-        { todos: []},
-        { todos: []}
+        { tasks: []},
+        { tasks: []}
       ];
 
       const routingKey = '000000-0000-0000-0000-0000000000001';
@@ -56,8 +56,8 @@ suite('Course', () => {
 
     test('returns the track for the given routing key when work has already been added for it.', async () => {
       const tracks = [
-        { todos: []},
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000001' }]}
+        { tasks: []},
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000001' }]}
       ];
 
       const routingKey = '000000-0000-0000-0000-0000000000001';
@@ -69,9 +69,9 @@ suite('Course', () => {
 
     test('returns the free track for the given routing key when no work has been added for it yet.', async () => {
       const tracks = [
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000001' }]},
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000002' }]},
-        { todos: []}
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000001' }]},
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000002' }]},
+        { tasks: []}
       ];
 
       const routingKey = '000000-0000-0000-0000-0000000000003';
@@ -83,9 +83,9 @@ suite('Course', () => {
 
     test('returns the track with least todo count when all tracks have alredy work todo.', async () => {
       const tracks = [
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000001' }, { routingKey: '000000-0000-0000-0000-0000000000002' }]},
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000003' }]},
-        { todos: [{ routingKey: '000000-0000-0000-0000-0000000000004' }, { routingKey: '000000-0000-0000-0000-0000000000005' }]}
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000001' }, { routingKey: '000000-0000-0000-0000-0000000000002' }]},
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000003' }]},
+        { tasks: [{ routingKey: '000000-0000-0000-0000-0000000000004' }, { routingKey: '000000-0000-0000-0000-0000000000005' }]}
       ];
 
       const routingKey = '000000-0000-0000-0000-0000000000006';
@@ -107,43 +107,43 @@ suite('Course', () => {
       assert.that(course.add).is.ofType('function');
     });
 
-    test('throws an error when routing key is missing.', async () => {
+    test('throws an error if routing key is missing.', async () => {
       await assert.that(async () => {
         await course.add({});
       }).is.throwingAsync('Routing key is missing.');
     });
 
-    test('throws an error when id is missing.', async () => {
+    test('throws an error if id is missing.', async () => {
       await assert.that(async () => {
         await course.add({ routingKey: '000000-0000-0000-0000-0000000000001' });
       }).is.throwingAsync('Id is missing.');
     });
 
-    test('throws an error when worker is missing.', async () => {
+    test('throws an error if task is missing.', async () => {
       await assert.that(async () => {
         await course.add({ routingKey: '000000-0000-0000-0000-0000000000001', id: '000000-0000-0000-0000-000000000000A' });
-      }).is.throwingAsync('Worker is missing.');
+      }).is.throwingAsync('Task is missing.');
     });
 
-    test('throws an error when worker throws an error.', async () => {
+    test('throws an error if task throws an error.', async () => {
       await assert.that(async () => {
         await course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
-          async worker () {
+          async task () {
             throw new Error();
           }
         });
       }).is.throwingAsync();
     });
 
-    test('runs a worker.', async () => {
+    test('runs a task.', async () => {
       const callOrder = [];
 
       await course.add({
         routingKey: '000000-0000-0000-0000-0000000000001',
         id: '000000-0000-0000-0000-000000000000A',
-        async worker () {
+        async task () {
           await delay(100);
 
           callOrder.push('000000-0000-0000-0000-000000000000A');
@@ -153,14 +153,14 @@ suite('Course', () => {
       assert.that(callOrder.length).is.equalTo(1);
     });
 
-    test('runs workers with the same routing key in series.', async () => {
+    test('runs tasks with the same routing key in series.', async () => {
       const callOrder = [];
 
       await Promise.all([
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
-          async worker () {
+          async task () {
             await delay(200);
 
             callOrder.push('000000-0000-0000-0000-000000000000A');
@@ -169,7 +169,7 @@ suite('Course', () => {
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000B',
-          async worker () {
+          async task () {
             await delay(100);
 
             callOrder.push('000000-0000-0000-0000-000000000000B');
@@ -182,14 +182,14 @@ suite('Course', () => {
       assert.that(callOrder[1]).is.equalTo('000000-0000-0000-0000-000000000000B');
     });
 
-    test('runs workers for a different routing keys in parallel.', async () => {
+    test('runs tasks for a different routing keys in parallel.', async () => {
       const callOrder = [];
 
       await Promise.all([
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
-          async worker () {
+          async task () {
             await delay(200);
 
             callOrder.push('000000-0000-0000-0000-000000000000A');
@@ -198,7 +198,7 @@ suite('Course', () => {
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000002',
           id: '000000-0000-0000-0000-000000000000B',
-          async worker () {
+          async task () {
             await delay(100);
 
             callOrder.push('000000-0000-0000-0000-000000000000B');
@@ -211,42 +211,42 @@ suite('Course', () => {
       assert.that(callOrder[1]).is.equalTo('000000-0000-0000-0000-000000000000A');
     });
 
-    test('removes the todo from track once the worker is done.', async () => {
+    test('removes the todo from track once the task is done.', async () => {
       await Promise.all([
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
-          async worker () {
+          async task () {
             await delay(200);
           }
         }),
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000002',
           id: '000000-0000-0000-0000-000000000000B',
-          async worker () {
+          async task () {
             await delay(100);
           }
         })
       ]);
 
       course.tracks.forEach(track => {
-        assert.that(track.todos.length).is.equalTo(0);
+        assert.that(track.tasks.length).is.equalTo(0);
       });
     });
 
-    test('removes the todo from track even when a worker throws an error.', async () => {
+    test('removes the todo from track even when a task throws an error.', async () => {
       await assert.that(async () => {
         await course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
-          async worker () {
+          async task () {
             throw new Error();
           }
         });
       }).is.throwingAsync();
 
       course.tracks.forEach(track => {
-        assert.that(track.todos.length).is.equalTo(0);
+        assert.that(track.tasks.length).is.equalTo(0);
       });
     });
   });
