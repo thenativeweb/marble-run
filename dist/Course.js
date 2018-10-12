@@ -102,26 +102,17 @@ function () {
                 return trackForTask.queue.add(task);
 
               case 15:
-                _context.next = 20;
-                break;
-
-              case 17:
-                _context.prev = 17;
-                _context.t0 = _context["catch"](12);
-                throw new Error('Failed to execute task.');
-
-              case 20:
-                _context.prev = 20;
+                _context.prev = 15;
                 index = trackForTask.tasks.indexOf(taskIdentity);
                 trackForTask.tasks.splice(index, 1);
-                return _context.finish(20);
+                return _context.finish(15);
 
-              case 24:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[12, 17, 20, 24]]);
+        }, _callee, this, [[12,, 15, 19]]);
       }));
 
       return function add() {
