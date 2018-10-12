@@ -1,7 +1,7 @@
 {
   "name": "marble-run",
   "version": "0.0.0",
-  "description": "marble-run is a module for parallelizing async tasks while keeping some of them in order.",
+  "description": "marble-run parallelizes asynchronous tasks while keeping some of them in order.",
   "contributors": [
     {
       "name": "Golo Roden",
