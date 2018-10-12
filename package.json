@@ -26,7 +26,8 @@
     "url": "git://github.com/thenativeweb/marble-run.git"
   },
   "keywords": [
-    "levenshtein"
+    "queue",
+    "worker"
   ],
   "license": "MIT"
 }
