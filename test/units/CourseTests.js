@@ -131,10 +131,10 @@ suite('Course', () => {
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
           async task () {
-            throw new Error();
+            throw new Error('Something bad happened.');
           }
         });
-      }).is.throwingAsync();
+      }).is.throwingAsync('Something bad happened.');
     });
 
     test('runs a task.', async () => {

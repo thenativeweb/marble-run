@@ -36,7 +36,7 @@ const course = new Course({
 
 ## Adding work and parallelizing it via the routing key
 
-In order to add async tasks you need to call the `add` method. First of all, you need to specify an `id` for the task, and a `worker` function to handle the task.
+In order to add async tasks you need to call the `add` method. First of all, you need to specify an `id` for the task, and a `task` function to handle the task.
 
 Also, you need to provide a `routingKey`. This key will be used to dispatch tasks onto the various tracks. A course will try to balance tasks between tracks, but make sure that all tasks with the same `routingKey` end up on the same track (i.e. are run sequantially):
 
@@ -44,7 +44,7 @@ Also, you need to provide a `routingKey`. This key will be used to dispatch task
 course.add({
   routingKey: '5d34dc92-899d-47dd-a51d-80c9379320c0',
   id: 'b9031afc-bbc8-4e48-8fb0-5639a9afd8c2',
-  async worker () {
+  async task () {
     // ...
   }
 });
@@ -56,7 +56,7 @@ If you want to get notified once a task ends, you can `await` its result:
 await course.add({
   routingKey: '5d34dc92-899d-47dd-a51d-80c9379320c0',
   id: 'b9031afc-bbc8-4e48-8fb0-5639a9afd8c2',
-  async worker () {
+  async task () {
     // ...
   }
 });

@@ -61,8 +61,6 @@ class Course {
 
     try {
       await trackForTask.queue.add(task);
-    } catch (ex) {
-      throw new Error('Failed to execute task.');
     } finally {
       const index = trackForTask.tasks.indexOf(taskIdentity);
 
