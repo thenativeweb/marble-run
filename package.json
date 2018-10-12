@@ -1,0 +1,32 @@
+{
+  "name": "marble-run",
+  "version": "0.0.0",
+  "description": "marble-run is a module for parallelizing async tasks while keeping some of them in order.",
+  "contributors": [
+    {
+      "name": "Golo Roden",
+      "email": "golo.roden@thenativeweb.io"
+    },
+    {
+      "name": "Matthias Wagler",
+      "email": "matthias.wagler@thenativeweb.io"
+    }
+  ],
+  "main": "dist/Course.js",
+  "dependencies": {
+    "p-queue": "3.0.0"
+  },
+  "devDependencies": {
+    "assertthat": "1.0.0",
+    "delay": "4.1.0",
+    "roboter": "2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thenativeweb/marble-run.git"
+  },
+  "keywords": [
+    "levenshtein"
+  ],
+  "license": "MIT"
+}
