@@ -14,13 +14,13 @@
   ],
   "main": "dist/Course.js",
   "dependencies": {
-    "@babel/runtime": "7.1.2",
+    "@babel/runtime": "7.3.1",
     "p-queue": "3.0.0"
   },
   "devDependencies": {
-    "assertthat": "1.0.0",
+    "assertthat": "2.0.1",
     "delay": "4.1.0",
-    "roboter": "2.0.0"
+    "roboter": "3.0.4"
   },
   "repository": {
     "type": "git",
