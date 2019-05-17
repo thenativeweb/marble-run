@@ -53,6 +53,9 @@ class Course {
     if (typeof task !== 'function') {
       throw new Error('Task is not a function.');
     }
+    if (this.tracks.some(track => track.tasks.some(existingTask => existingTask.id === id))) {
+      throw new Error(`Task with id '${id}' already exists.`);
+    }
 
     const trackForTask = Course.findBestTrackForRoutingKey({ tracks: this.tracks, routingKey });
     const taskIdentity = { routingKey, id };
