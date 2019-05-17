@@ -16,15 +16,14 @@
       "email": "hannes.leutloff@yeldirium.de"
     }
   ],
-  "main": "dist/Course.js",
+  "main": "lib/Course.js",
   "dependencies": {
-    "@babel/runtime": "7.3.1",
-    "p-queue": "3.0.0"
+    "p-queue": "5.0.0"
   },
   "devDependencies": {
-    "assertthat": "2.0.1",
-    "delay": "4.1.0",
-    "roboter": "3.0.4"
+    "assertthat": "3.0.0",
+    "delay": "4.2.0",
+    "roboter": "6.1.0"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@
 const assert = require('assertthat'),
       delay = require('delay');
 
-const Course = require('../../src/Course');
+const Course = require('../../lib/Course');
 
 suite('Course', () => {
   test('is a function.', async () => {
@@ -182,7 +182,7 @@ suite('Course', () => {
       assert.that(callOrder[1]).is.equalTo('000000-0000-0000-0000-000000000000B');
     });
 
-    test('runs tasks for a different routing keys in parallel.', async () => {
+    test('runs tasks for different routing keys in parallel.', async () => {
       const callOrder = [];
 
       await Promise.all([
@@ -211,7 +211,7 @@ suite('Course', () => {
       assert.that(callOrder[1]).is.equalTo('000000-0000-0000-0000-000000000000A');
     });
 
-    test('removes the todo from track once the task is done.', async () => {
+    test('removes the task from track once the task is done.', async () => {
       await Promise.all([
         course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
@@ -234,13 +234,13 @@ suite('Course', () => {
       });
     });
 
-    test('removes the todo from track even when a task throws an error.', async () => {
+    test('removes the task from track even when a task throws an error.', async () => {
       await assert.that(async () => {
         await course.add({
           routingKey: '000000-0000-0000-0000-0000000000001',
           id: '000000-0000-0000-0000-000000000000A',
           async task () {
-            throw new Error();
+            throw new Error('Something went wrong.');
           }
         });
       }).is.throwingAsync();
