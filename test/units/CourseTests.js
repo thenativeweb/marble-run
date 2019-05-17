@@ -249,5 +249,24 @@ suite('Course', () => {
         assert.that(track.tasks.length).is.equalTo(0);
       });
     });
+
+    test('running tasks with the same id in parallel throws an error.', async () => {
+      await assert.that(async () => Promise.all([
+        course.add({
+          routingKey: '000000-0000-0000-0000-0000000000001',
+          id: '000000-0000-0000-0000-000000000000A',
+          async task () {
+            await delay(200);
+          }
+        }),
+        course.add({
+          routingKey: '000000-0000-0000-0000-0000000000002',
+          id: '000000-0000-0000-0000-000000000000A',
+          async task () {
+            await delay(100);
+          }
+        })
+      ])).is.throwingAsync();
+    });
   });
 });

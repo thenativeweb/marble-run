@@ -36,7 +36,7 @@ const course = new Course({
 
 ## Adding work and parallelizing it via the routing key
 
-In order to add async tasks you need to call the `add` method. First of all, you need to specify an `id` for the task, and a `task` function to handle the task.
+In order to add async tasks you need to call the `add` method. First of all, you need to specify an `id` for the task, and a `task` function to handle the task. Adding multiple tasks with the same `id` throws an error to prevent accidentally adding the same task multiple times.
 
 Also, you need to provide a `routingKey`. This key will be used to dispatch tasks onto the various tracks. A course will try to balance tasks between tracks, but make sure that all tasks with the same `routingKey` end up on the same track (i.e. are run sequantially):
 
