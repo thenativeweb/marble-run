@@ -1,6 +1,6 @@
 {
   "name": "marble-run",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "marble-run parallelizes asynchronous tasks while keeping some of them in order.",
   "contributors": [
     {
