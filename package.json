@@ -23,7 +23,7 @@
   "devDependencies": {
     "assertthat": "3.0.0",
     "delay": "4.2.0",
-    "roboter": "6.1.0"
+    "roboter": "13.2.1"
   },
   "repository": {
     "type": "git",
